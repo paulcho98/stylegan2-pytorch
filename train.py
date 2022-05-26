@@ -311,10 +311,10 @@ def train(args, loader, generator, discriminator, g_optim, d_optim, g_ema, devic
                         f"sample/{str(i).zfill(6)}.png",
                         nrow=int(args.n_sample ** 0.5),
                         normalize=True,
-                        range=(-1, 1),
+                        range_value=(-1, 1),
                     )
 
-            if i % 10000 == 0:
+            if i % 5000 == 0:
                 torch.save(
                     {
                         "g": g_module.state_dict(),
@@ -487,9 +487,9 @@ if __name__ == "__main__":
         except ValueError:
             pass
 
-        generator.load_state_dict(ckpt["g"])
-        discriminator.load_state_dict(ckpt["d"])
-        g_ema.load_state_dict(ckpt["g_ema"])
+        generator.load_state_dict(ckpt["g"], strict=False)
+        discriminator.load_state_dict(ckpt["d"], strict=False)
+        g_ema.load_state_dict(ckpt["g_ema"], strict=False)
 
         g_optim.load_state_dict(ckpt["g_optim"])
         d_optim.load_state_dict(ckpt["d_optim"])
